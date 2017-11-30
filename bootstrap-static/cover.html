@@ -12,14 +12,15 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    
+
     <link href="./cover.css" rel="stylesheet">
   </head>
 
   <body>
 
     <div class="site-wrapper">
-      
+
+      <!-- Start Modal -->
       <div class="modal" tabindex="-1" role="dialog" id="myModal">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -32,7 +33,7 @@
               <div class="modal-body">
                 <p>Modal body text goes here.</p>
                 <div class="steps">
-                  
+
                 </div>
               </div>
               <div class="modal-footer">
@@ -41,63 +42,86 @@
             </div>
           </div>
         </div>
-        <!-- End Modal -->
+      <!-- End Modal -->
+
       <div class="site-wrapper-inner">
 
-        <div class="cover-container">
+        <div class="site-container">
 
-          <header class="masthead clearfix">
-            <div class="inner">
-              <h3 class="masthead-brand">Foodict</h3>
-              <nav class="nav nav-masthead">
-                <input id="general-search" type="text" class="text" style="color:#888;" size="25" value="search" onclick="focusFunction()" onblur="blurFunction()">
-                <button id="general-search-submit">Search</button>
-                <a class="nav-link active" href="#">FB</a>
-                <a class="nav-link" href="#">Twitter</a>
-                <a class="nav-link" href="#">About</a>
-                <a class="nav-link" href="#">log in/sign up</a>
-                <button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</button>
-              </nav>
-            </div>
-          </header>
+          <!-- Start Navigation -->
+          <nav class="navbar navbar-expand-lg navbar-light bg-light">
+              <a class="navbar-brand" href="#">Foodict</a>
+              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
 
-            
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                  <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                  </li>
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Dropdown
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <a class="dropdown-item" href="#">Action</a>
+                      <a class="dropdown-item" href="#">Another action</a>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link disabled" href="#">Disabled</a>
+                  </li>
+                </ul>
+                <form class="form-inline my-2 my-lg-0">
+                  <input class="form-control mr-sm-2" id="general-search" type="search" placeholder="Search" aria-label="Search">
+                  <button class="btn btn-outline-success my-2 my-sm-0" id="general-search-submit" type="submit">Search</button>
+                </form>
+              </div>
+            </nav>
+          <!-- End Navigation -->
+
             <!-- Recipe Section -->
             <section id="recipes-section" class="row row-second">
-                <div class="col-lg recipe-items">
+                <div class="recipe-items">
                   <!-- Recipe Item -->
-                  <div class="media recipe-item">
-                    <img class="mr-3" src="#" alt="Generic placeholder image">
+                  <div class="recipe-item">
+                    <img class="recipe-image" src="#" alt="Generic placeholder image">
                     <div class="media-body">
                       <h5 class="mt-0-button">Recipe name</h5></br>
-                      <h5 class="recipe-description">description</h5>  
+                      <h5 class="recipe-description">description</h5>
                 <!-- recipe results item -->
                 <div id="recipe-results" class="row">
                   <div class="col-sm">
                     <h5>qwer</h5>
                   </div>
                 </div>
-                <!-- end recipe results item -->                      
+                <!-- end recipe results item -->
                     </div>
                   </div>
                   <!-- End Recipe Item -->
                 </div>
-                
 
-                
+
+
             </section>
             <!-- End Recipe Section -->
-          
+
         </div>
 
       </div>
-      
-      
+
+
 
     </div>
-    
+
     <div id="id01" class="modal">
-  
+
   <form class="modal-content animate" action="/action_page.php">
     <div class="imgcontainer">
       <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
@@ -110,7 +134,7 @@
 
       <label><b>Password</b></label>
       <input type="password" placeholder="Enter Password" name="psw" required>
-        
+
       <button type="submit">Login</button>
       <input type="checkbox" checked="checked"> Remember me
     </div>
