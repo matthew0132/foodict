@@ -84,16 +84,20 @@ $( document ).ready(function() {
         console.log("Getting recipe instructions with the id of :" + recipeID);
         var recipeInstructions = "";
         var recipeTitle = "";
-        
+        var ingredients = "Ingredients:<br/>";
         $.ajax({
             url: "https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/"+ recipeID + 
             "/information?includeNutrition=false",
             success: function(recipe) {
-
-                //console.log(recipe.analyzedInstructions[0].steps);
                 recipeTitle = recipe.title;
                 try{
                     console.log("found analyzedInstructions");
+                    $.each(recipe.extendedIngredients, function(key, val) {
+                       console.log(this.originalString);
+                       ingredients += this.originalString + "<br/>";
+                        
+                    });
+                    $("#"+recipeID).append("<div class='ingredients hidden' id='ingredients"+recipeID+"'>" + ingredients +"</div>");
                     $.each( recipe.analyzedInstructions[0].steps, function( key, val ) {
                         recipeInstructions += "<div class = 'step-name'>Step " + this.number.toString() + ":<br/>" +  this.step + "<br/></div>";
                     });
@@ -103,6 +107,11 @@ $( document ).ready(function() {
                 catch(e){
                     recipeInstructions = "Instructions for this recipe are missing.";
                     console.log("missing analyzedInstructions");
+                    $.each(recipe.extendedIngredients, function(key, val) {
+                       console.log(this.originalString);
+                       ingredients = this.originalString;
+                       $("#"+recipeID).append("<div class='ingredients hidden' id='ingredients"+recipeID+"'>" + ingredients +"</div>");
+                    });
                     $("#"+recipeID).append("<div class='instructions hidden' id='recipe"+recipeID+"'>" + recipeInstructions +"</div>");
                 }
             },
@@ -118,7 +127,7 @@ $( document ).ready(function() {
     }
        
     // Method to start event listener for mouse clicks
-    
+
     var enableRecipeInstructions = function() {
         
         $('.recipe-item').click(function(e){
@@ -136,9 +145,10 @@ $( document ).ready(function() {
     // Method that concatenates the div instructions ID and slides 
     
     var displaySlide = function(recipeID) { 
-        var name = "#recipe" +recipeID; 
+        var name = "#recipe" + recipeID; 
+        var ingredientName = "#ingredients" + recipeID;
         $(name).toggleClass("hidden");
-        
+        $(ingredientName).toggleClass("hidden");
         /* Don't use slideToggle, as it may be triggered everytime you're adding to that element within the dom. */
         /* We can use a class called hidden to be used to hide elements, and simply toggle said class if we wanted content to appear or disappear when needed. */
     };

@@ -153,6 +153,11 @@ body {
   padding-left:10px;
 }
 
+.ingredients{
+  text-align: left;
+  padding-left: 10px;
+}
+
 .hidden {
   display: none;
 }
