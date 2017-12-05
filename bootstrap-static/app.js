@@ -92,22 +92,19 @@ $( document ).ready(function() {
 
                 //console.log(recipe.analyzedInstructions[0].steps);
                 recipeTitle = recipe.title;
-                
-                if(recipe.analyzedInstructions.lenghth <= 0 ) {
-                    recipeInstructions = recipe.instructions;
-                    console.log("missing analyzedInstructions");
-                }
-                else  {
+                try{
                     console.log("found analyzedInstructions");
                     $.each( recipe.analyzedInstructions[0].steps, function( key, val ) {
                         recipeInstructions += "<div class = 'step-name'>Step " + this.number.toString() + ":<br/>" +  this.step + "<br/></div>";
                     });
                      $("#"+recipeID).append("<div class='instructions hidden' id='recipe"+recipeID+"'>" + recipeInstructions +"</div>");
-                     console.log("APPENDING INSTRUCTIONS");
                 }
-                if(recipeInstructions == null)
-                    recipeInstructions = "Could not find instructions for this recipe.";
-                    
+
+                catch(e){
+                    recipeInstructions = "Instructions for this recipe are missing.";
+                    console.log("missing analyzedInstructions");
+                    $("#"+recipeID).append("<div class='instructions hidden' id='recipe"+recipeID+"'>" + recipeInstructions +"</div>");
+                }
             },
             complete: function() {
                 enableRecipeInstructions();
