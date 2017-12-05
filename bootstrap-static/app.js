@@ -67,7 +67,7 @@ $( document ).ready(function() {
             var title = this.title;
             var image = this.image;
             var recipeID = this.id;
-            $(".recipe-items").append("<div id='" + recipeID +"' class='recipe-item col-4' data-recipe-id='" + recipeID + "' data-recipe-title='" + title + "' style='background-image: url(" + image + ");'><h5 class='recipe-description'>" + title +"</h5></div><div class='recipe-body'></div>");
+            $("#recipes-section").append("<div id='" + recipeID +"' class='recipe-item col-3' data-recipe-id='" + recipeID + "' data-recipe-title='" + title + "' style='background-image: url(" + image + "); min-height: 200px;'><h5 class='recipe-description'>" + title +"</h5></div><div class='recipe-body'></div>");
             getRecipeInstruction(recipeID);
         });
 
