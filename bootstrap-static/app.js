@@ -4,25 +4,23 @@ function replace() {
 }
 
 $( document ).ready(function() {
-    
-    $('.mt-0-button').on('click', () => {
-        $('#recipe-results').slideToggle();
-        console.log("clicked slider");
-    });   
     console.log( "ready!" );
     
     var recipeResults = "";
     
     
     
-    //getRecipeFromIngredients
+    // getRecipeFromIngredients
     // when the button gets pushed
     
     $('#general-search-submit').click(function(e) {
-        
+        // stop default function
         e.preventDefault();
+        
+        // variable to hold searchbox input
         var ingredients = "";
         
+        // puts searchbox input into ingredients variable and formats it
         ingredients = $('#general-search').val();
         ingredients = ingredients.split(/[ ,]+/).join(',');
         
@@ -31,22 +29,23 @@ $( document ).ready(function() {
         
     });
     
+    // method that makes api call for recipe search results
+    
     var getSearchResultsByIngredients = function(ingredients) {
         $.ajax({
             url: "https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/findByIngredients?fillIngredients=false&ingredients=" + ingredients + "&limitLicense=false&number=5&ranking=1",
             
-            
             success: function(result) {
+                // removes images if any
                 $('.recipe-item').remove();
                 recipeResults = result;
                 console.log("Successfully received results: ");
-                // Receivles
+                // Receives
                 // id, image, imageType, likes, missedIngredeintCount, title, and usedIngredientCount
                 console.log(recipeResults);
                 console.log("End of getSearchResultsByIngredients ");
             },
             complete: function() {
-                
                 // Method that appends each image and title to the page
                 displayRecipeResults();
             },
@@ -60,17 +59,17 @@ $( document ).ready(function() {
     
     //Method that appends each recipe's image and title
     var displayRecipeResults = function() {
-        
-
         var recipes = recipeResults;
-        //var recipeInstructions;
-
         $.each( recipes, function( key, val ) {
                 
             var title = this.title;
             var image = this.image;
             var recipeID = this.id;
+            
+            // appends image and title to output
             $(".recipe-items").append("<div id='" + recipeID +"' class='media recipe-item' data-recipe-id='" + recipeID + "' data-recipe-title='" + title + "' ><img class='mr-3' src='" + image + "'/><h5 class='recipe-description'>" + title +"</h5></div><div class='recipe-body'></div>");
+            
+            // method that makes API call to get other details for recipes
             getRecipeInstruction(recipeID);
         });
         
@@ -90,25 +89,31 @@ $( document ).ready(function() {
             "/information?includeNutrition=false",
             success: function(recipe) {
                 recipeTitle = recipe.title;
+                // try to get to use analyzedInstructions
                 try{
                     console.log("found analyzedInstructions");
+                    
+                    // concatenates all ingredients into the ingredients variable
                     $.each(recipe.extendedIngredients, function(key, val) {
-                       console.log(this.originalString);
                        ingredients += this.originalString + "<br/>";
-                        
                     });
+                    
+                    // creates div for ingredients, identified by the class ingredients hidden and the id ingredients"RecipeID"
                     $("#"+recipeID).append("<div class='ingredients hidden' id='ingredients"+recipeID+"'>" + ingredients +"</div>");
+                    
+                    // concatenates each step into a separate div
                     $.each( recipe.analyzedInstructions[0].steps, function( key, val ) {
                         recipeInstructions += "<div class = 'step-name'>Step " + this.number.toString() + ":<br/>" +  this.step + "<br/></div>";
                     });
-                     $("#"+recipeID).append("<div class='instructions hidden' id='recipe"+recipeID+"'>" + recipeInstructions +"</div>");
+                    
+                    // creates div for instructions, identified by the class instructions hidden and the id recipe"RecipeID"
+                    $("#"+recipeID).append("<div class='instructions hidden' id='recipe"+recipeID+"'>" + recipeInstructions +"</div>");
                 }
-
+                // if error for analyzed instructions is thrown, act as instructions are missing
                 catch(e){
                     recipeInstructions = "Instructions for this recipe are missing.";
                     console.log("missing analyzedInstructions");
                     $.each(recipe.extendedIngredients, function(key, val) {
-                       console.log(this.originalString);
                        ingredients = this.originalString;
                        $("#"+recipeID).append("<div class='ingredients hidden' id='ingredients"+recipeID+"'>" + ingredients +"</div>");
                     });
