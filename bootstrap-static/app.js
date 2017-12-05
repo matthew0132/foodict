@@ -93,7 +93,7 @@ $( document ).ready(function() {
                 //console.log(recipe.analyzedInstructions[0].steps);
                 recipeTitle = recipe.title;
                 
-                if(recipe.analyzedInstructions.lenghth < 0 ) {
+                if(recipe.analyzedInstructions.lenghth <= 0 ) {
                     recipeInstructions = recipe.instructions;
                     console.log("missing analyzedInstructions");
                 }
@@ -102,7 +102,8 @@ $( document ).ready(function() {
                     $.each( recipe.analyzedInstructions[0].steps, function( key, val ) {
                         recipeInstructions += "<div class = 'step-name'>Step " + this.number.toString() + ":<br/>" +  this.step + "<br/></div>";
                     });
-                     $("#recipeID").append("Directions for :" + recipeTitle + "<br/>" + recipeInstructions);
+                     $("#"+recipeID).append("<div class='instructions hidden' id='recipe"+recipeID+"'>" + recipeInstructions +"</div>");
+                     console.log("APPENDING INSTRUCTIONS");
                 }
                 if(recipeInstructions == null)
                     recipeInstructions = "Could not find instructions for this recipe.";
@@ -118,40 +119,31 @@ $( document ).ready(function() {
             }
         });
     }
-    
-    /*var makeInstructionsPretty = function(instructions) {
-        var fixedInstructions = "";
-        console.log(instructions.substring(0,2));
-        for(var i = 0; i < instructions.length; i++) {
-            if(instructions.charAt(i).isNumeric && instructions.charAt(i+1) == ".") {
-                var cut = instructions.substring(i, i+2);
-                console.log("Checking if we got the correct thing: " + cut);
-                fixedInstructions = instructions.replace(cut, cut + "<br/>");
-            }
-        }
-        displayModal(fixedInstructions);
-    }*/
-    
        
     // Method to start event listener for mouse clicks
     
-    
     var enableRecipeInstructions = function() {
         
-        $('.recipe-item').each(function() {
-            $(this).click(function(e) {
-                // prevents any action from occuring when we click on an element
-                e.preventDefault();
-                var recipeID = $(this).data('recipe-id');
-                var title = $(this).data('recipe-title');
-                console.log("Clicked on " + $(this).data('recipe-title'));
-                displaySlide(recipeID);
-            });
+        $('.recipe-item').click(function(e){
+            e.preventDefault();
+            var recipeID = $(this).data('recipe-id');
+            var title = $(this).data('recipe-title');
+            displaySlide(recipeID);
+            console.log("sliding directions of recipeID: "+recipeID);
         });
+        
+
     };
     
-    var displaySlide = function(recipeID) {
-        console.log("attempting to slide");
-        $("#recipe-results").slideToggle("slow");
+    
+    // Method that concatenates the div instructions ID and slides 
+    
+    var displaySlide = function(recipeID) { 
+        var name = "#recipe" +recipeID; 
+        $(name).toggleClass("hidden");
+        
+        /* Don't use slideToggle, as it may be triggered everytime you're adding to that element within the dom. */
+        /* We can use a class called hidden to be used to hide elements, and simply toggle said class if we wanted content to appear or disappear when needed. */
     };
 });
+
